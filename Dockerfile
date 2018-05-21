@@ -7,6 +7,15 @@ RUN git clone https://github.com/sstephenson/bats.git \
   && cd .. \
   && rm -rf bats
 
+RUN export PERL_MM_USE_DEFAULT=1
+
+RUN apk add --no-cache perl-utils perl-dev
+RUN set -x && cpan install  Getopt::Long \
+                            Pod::Usage \
+                            TAP::Parser \
+                            Time::HiRes \
+                            XML::Generator
+
 # Default to UTF-8 file.encoding
 ENV LANG C.UTF-8
 
