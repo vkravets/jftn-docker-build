@@ -1,0 +1,44 @@
+image_config: &image_config
+  IMAGE_NAME: jftn-build
+  IMAGE_TAG: java1.8_thrift0.11
+version: 2
+jobs:
+  build:
+    machine: true
+    environment:
+      <<: *image_config
+
+    steps:
+      - checkout
+      - run: docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
+      - run: docker build -t $DOCKER_USERNAME/$IMAGE_NAME:$IMAGE_TAG .
+      - run: docker push $DOCKER_USERNAME/$IMAGE_NAME:$IMAGE_TAG && sleep 10
+      - store_artifacts:
+          path: Dockerfile
+
+  test_image:
+    docker:
+      - image: $DOCKER_USERNAME/jftn-build:java1.8_thrift0.11
+        environment:
+          <<: *image_config
+    steps:
+      - checkout
+      - run:
+          name: bats tests
+          command: |
+            mkdir -p test_results/bats
+            bats scripts/tests.bats | \
+            perl scripts/tap-to-junit.sh > \
+            test_results/bats/results.xml
+
+workflows:
+  version: 2
+  dockerfile_wizard:
+    jobs:
+      - build:
+          context: docker 
+
+      - test_image:
+          context: docker
+          requires:
+            - build
