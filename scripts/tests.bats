@@ -20,3 +20,8 @@
   
   thrift --version
 }
+
+@test "node" {
+
+  node --version
+}
