@@ -1,6 +1,6 @@
 image_config: &image_config
   IMAGE_NAME: jftn-build
-  IMAGE_TAG: java1.8_thrift0.11
+  IMAGE_TAG: java1.8_thrift0.12
 version: 2
 jobs:
   build:
@@ -19,7 +19,7 @@ jobs:
 
   test_image:
     docker:
-      - image: $DOCKER_USERNAME/jftn-build:java1.8_thrift0.11
+      - image: $DOCKER_USERNAME/jftn-build:java1.8_thrift0.12
         environment:
           <<: *image_config
     steps:
@@ -42,7 +42,7 @@ workflows:
   dockerfile_wizard:
     jobs:
       - build:
-          context: docker 
+          context: docker
 
       - test_image:
           context: docker
