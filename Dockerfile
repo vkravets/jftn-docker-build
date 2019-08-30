@@ -1,4 +1,4 @@
-FROM praekeltfoundation/alpine-buildpack-deps:3.9
+FROM praekeltfoundation/alpine-buildpack-deps:3.8
 
 # install bats for testing
 RUN git clone https://github.com/sstephenson/bats.git \
@@ -101,7 +101,7 @@ RUN set -x \
 
 # Install thrift build dependecies
 RUN apk add --no-cache \
-    automake bison flex boost boost-dev libevent-dev pkgconfig
+    automake bison flex boost boost-dev boost-unit_test_framework libevent-dev pkgconfig python3-dev python2-dev
 
 RUN cd /tmp && \
     curl http://archive.apache.org/dist/thrift/0.12.0/thrift-0.12.0.tar.gz | tar zx &&  \
