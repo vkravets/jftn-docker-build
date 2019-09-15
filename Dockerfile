@@ -1,6 +1,7 @@
 FROM praekeltfoundation/alpine-buildpack-deps:3.8 as thrift-builder
 
 # install bats for testing
+# TODO: make this from Circle CI
 RUN git clone https://github.com/sstephenson/bats.git \
   && cd bats \
   && ./install.sh /usr/local \

@@ -43,8 +43,3 @@ workflows:
     jobs:
       - build:
           context: docker
-
-      - test_image:
-          context: docker
-          requires:
-            - build
